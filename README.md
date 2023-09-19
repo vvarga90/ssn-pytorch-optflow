@@ -90,10 +90,10 @@ DAVIS 2017 validation set, pigs sequence, frame#43
 
 Base model results (nspix=200, color_scale=0.26, pos_scale=10.0), path to model: `./trained_models/best_model.pth`
 
-<img src=https://github.com/vvarga90/ssn-pytorch-optflow/blob/main/results_pigs_base.png width="400">
+<img src=https://github.com/vvarga90/ssn-pytorch-optflow/blob/main/results_pigs_base.png width="600">
 
 Composite model results using pre-generated GMA optical flow estimations (nspix=200, color_scale=0.26, pos_scale=10.0, optflow_scale=15.0), path to model: `./trained_models/best_model.pth`
 
-<img src=https://github.com/vvarga90/ssn-pytorch-optflow/blob/main/results_pigs_composite.png  width="400">
+<img src=https://github.com/vvarga90/ssn-pytorch-optflow/blob/main/results_pigs_composite.png  width="600">
 
 
