@@ -55,8 +55,8 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--bsds_root", default="/home/vavsaai/databases/BSDS500/BSR/", type=str, help="/path/to/BSR")
-    parser.add_argument("--davis2017_root", default="/home/vavsaai/databases/DAVIS/DAVIS2017/", type=str, help="/path/to/DAVIS2017")
+    parser.add_argument("--bsds_root", type=str, help="/path/to/BSR")
+    parser.add_argument("--davis2017_root", type=str, help="/path/to/DAVIS2017")
     parser.add_argument("--base_model_weights", default="./log/best_model.pth", type=str, help="/path/to/weigh.ts")
     parser.add_argument("--deepfdim", default=15, type=int, help="embedding dimension  (!!! excluding LAB,XY,etc. concatenated at the end !!!")
     parser.add_argument("--niter", default=5, type=int, help="number of iterations for differentiable SLIC")

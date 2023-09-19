@@ -67,9 +67,8 @@ if __name__ == "__main__":
     #                                                                                (original video frame order, not reversed)
     #           values in optical flow estimation are in delta pixels (y,x order) for videos resized to 480x854 (y,x)
 
-    parser.add_argument("--davis2017_root", default="/home/vavsaai/databases/DAVIS/DAVIS2017/", type=str, help="/path/to/DAVIS2017")
-    parser.add_argument("--davis_optflow_folder", default="/home/vavsaai/databases/DAVIS/iccv21_TEMP_impl_preprocessed_data/optflow/", \
-                                                                                        type=str, help="/path/to/DAVIS_OPTFLOW_FOLDER")
+    parser.add_argument("--davis2017_root", type=str, help="/path/to/DAVIS2017")
+    parser.add_argument("--davis_optflow_folder", type=str, help="/path/to/DAVIS_OPTFLOW_FOLDER")
     parser.add_argument("--comp_model_weights", default="./log/best_composite_model.pth", type=str, help="/path/to/weigh.ts")
     parser.add_argument("--deepfdim", default=15, type=int, help="embedding dimension  (!!! excluding LAB,XY,etc. concatenated at the end !!!")
     parser.add_argument("--optflow_deepfdim", default=10, type=int, help="optflow embedding dimension")
