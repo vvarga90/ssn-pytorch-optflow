@@ -131,14 +131,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--image", type=str, help="/path/to/image")
     parser.add_argument("--optflow_data", type=str, help="/path/to/optflow_im_data_hdf5")
-    parser.add_argument("--comp_model_weights", default="./log/best_composite_model.pth", type=str, help="/path/to/weigh.ts")
+    parser.add_argument("--optflow_data_fr_idx", type=int, help="frame idx of image for optflow data indexing")
+    parser.add_argument("--comp_model_weights", default="./trained_models/best_composite_model.pth", type=str, help="/path/to/weigh.ts")
     parser.add_argument("--deepfdim", default=15, type=int, help="embedding dimension  (!!! excluding LAB,XY,etc. concatenated at the end !!!")
     parser.add_argument("--optflow_deepfdim", default=10, type=int, help="optflow embedding dimension")
     parser.add_argument("--niter", default=5, type=int, help="number of iterations for differentiable SLIC")
-    parser.add_argument("--nspix", default=1000, type=int, help="number of superpixels")
+    parser.add_argument("--nspix", default=200, type=int, help="number of superpixels")
     parser.add_argument("--color_scale", default=0.26, type=float)
-    parser.add_argument("--pos_scale", default=2.5, type=float)
-    parser.add_argument("--optflow_scale", default=5.0, type=float)
+    parser.add_argument("--pos_scale", default=10.0, type=float)
+    parser.add_argument("--optflow_scale", default=15.0, type=float)
     args = parser.parse_args()
 
     model = init_optflow_composite_model(color_feature_dim=args.deepfdim, optflow_feature_dim=args.optflow_deepfdim, \
@@ -146,17 +147,23 @@ if __name__ == "__main__":
     # load image and optflow data
     image = plt.imread(args.image)
     h5f = h5py.File(args.optflow_data, 'r')
-    flow_image = h5f['flow_data']               # (sy, sx, n_optflow_channels) of np.float32
+    flow_fw = h5f['flows'][:]
+    flow_bw = h5f['inv_flows'][:]
     h5f.close()
+    assert flow_fw.ndim == flow_bw.ndim == 4
+    assert 0 <= args.optflow_data_fr_idx <= flow_fw.shape[0], "Given frame (--optflow_data_fr_idx) is out of bounds for optical flow HDF5 archive."
+    zero_flow = np.zeros(flow_fw.shape[1:], dtype=np.float32)
+    flow_im0 = flow_fw[args.optflow_data_fr_idx] if args.optflow_data_fr_idx < flow_fw.shape[0] else zero_flow
+    flow_im1 = flow_bw[args.optflow_data_fr_idx-1] if args.optflow_data_fr_idx > 0 else zero_flow
+    flow_im = np.concatenate([flow_im0.astype(np.float32), flow_im1.astype(np.float32)], axis=-1)
 
     # run composite model inference on image and optflow data
     s = time.time()
-    label = inference_optflow_composite_model(comp_model=model, image_rgb=image, image_optflow=flow_image, nspix=args.nspix, \
+    label = inference_optflow_composite_model(comp_model=model, image_rgb=image, image_optflow=flow_im, nspix=args.nspix, \
                     color_scale=args.color_scale, pos_scale=args.pos_scale, optflow_scale=args.optflow_scale, \
                     enforce_connectivity=True, return_feature_vecs=False, return_feature_map=False, \
                     base_features_in_return=False)
     
     print(f"Inference time {time.time() - s}sec")
 
-    out_fpath = os.path.join(IMGS_FOLDER_OUTPATH, im_fname)
-    plt.imsave(out_fpath, mark_boundaries(image, label))
+    plt.imsave("results.png", mark_boundaries(image, label))

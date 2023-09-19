@@ -102,12 +102,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--image", type=str, help="/path/to/image")
-    parser.add_argument("--base_model_weights", default="./log/best_model.pth", type=str, help="/path/to/weigh.ts")
+    parser.add_argument("--base_model_weights", default="./trained_models/best_model.pth", type=str, help="/path/to/weigh.ts")
     parser.add_argument("--deepfdim", default=15, type=int, help="embedding dimension  (!!! excluding LAB,XY,etc. concatenated at the end !!!")
     parser.add_argument("--niter", default=5, type=int, help="number of iterations for differentiable SLIC")
-    parser.add_argument("--nspix", default=1000, type=int, help="number of superpixels")
+    parser.add_argument("--nspix", default=200, type=int, help="number of superpixels")
     parser.add_argument("--color_scale", default=0.26, type=float)
-    parser.add_argument("--pos_scale", default=2.5, type=float)
+    parser.add_argument("--pos_scale", default=10.0, type=float)
     args = parser.parse_args()
 
     model = init_model(deep_feature_dim=args.deepfdim, n_iter=args.niter, weight=args.base_model_weights)
