@@ -70,7 +70,7 @@ if __name__ == "__main__":
     parser.add_argument("--davis2017_root", default="/home/vavsaai/databases/DAVIS/DAVIS2017/", type=str, help="/path/to/DAVIS2017")
     parser.add_argument("--davis_optflow_folder", default="/home/vavsaai/databases/DAVIS/iccv21_TEMP_impl_preprocessed_data/optflow/", \
                                                                                         type=str, help="/path/to/DAVIS_OPTFLOW_FOLDER")
-    parser.add_argument("--comp_model_weights", default="./log/composite_model_run1801.pth", type=str, help="/path/to/weigh.ts")
+    parser.add_argument("--comp_model_weights", default="./log/best_composite_model.pth", type=str, help="/path/to/weigh.ts")
     parser.add_argument("--deepfdim", default=15, type=int, help="embedding dimension  (!!! excluding LAB,XY,etc. concatenated at the end !!!")
     parser.add_argument("--optflow_deepfdim", default=10, type=int, help="optflow embedding dimension")
     parser.add_argument("--niter", default=5, type=int, help="number of iterations for differentiable SLIC")

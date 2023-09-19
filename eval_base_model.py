@@ -64,6 +64,7 @@ if __name__ == "__main__":
     parser.add_argument("--color_scale", default=0.26, type=float)
     parser.add_argument("--pos_scale", default=2.5, type=float)
     parser.add_argument("--eval_iou_ignore_background", default=True, type=bool)
+    parser.add_argument("--eval_on_davis", default=False, type=bool)
     args = parser.parse_args()
     print("Config: ", args)
 
@@ -82,10 +83,11 @@ if __name__ == "__main__":
     test_dataset_bsds = bsds.BSDS(root=args.bsds_root, split="val")
     test_loader_bsds = DataLoader(test_dataset_bsds, 1, shuffle=False, drop_last=False)
 
-    print("Loading data: DAVIS test")
-    test_dataset_davis = davis.DAVIS(davis2017_root=args.davis2017_root, split="test", every_n_th_frame=10, \
-                                                                                        optflow_data_folder=None)
-    test_loader_davis = DataLoader(test_dataset_davis, 1, shuffle=False, drop_last=False)
+    if args.eval_on_davis is True:
+        print("Loading data: DAVIS test")
+        test_dataset_davis = davis.DAVIS(davis2017_root=args.davis2017_root, split="test", every_n_th_frame=10, \
+                                                                                            optflow_data_folder=None)
+        test_loader_davis = DataLoader(test_dataset_davis, 1, shuffle=False, drop_last=False)
 
     print("Loading data done.")
 
@@ -96,9 +98,10 @@ if __name__ == "__main__":
     t1 = time.time()
     print(f"validation asa (BSDS) {bsds_asa}, iou {bsds_iou}, eval time {t1-t0}")
 
-    t0 = time.time()
-    davis_asa, davis_iou = eval_base_model(base_model=base_model, loader=test_loader_davis, color_scale=args.color_scale, \
-                                                            pos_scale=args.pos_scale, nspix=args.nspix, device=device, \
-                                                            ignore_background=args.eval_iou_ignore_background)
-    t1 = time.time()
-    print(f"validation asa (DAVIS test 1/10) {davis_asa}, iou {davis_iou}, eval time {t1-t0}")
+    if args.eval_on_davis is True:
+        t0 = time.time()
+        davis_asa, davis_iou = eval_base_model(base_model=base_model, loader=test_loader_davis, color_scale=args.color_scale, \
+                                                                pos_scale=args.pos_scale, nspix=args.nspix, device=device, \
+                                                                ignore_background=args.eval_iou_ignore_background)
+        t1 = time.time()
+        print(f"validation asa (DAVIS test 1/10) {davis_asa}, iou {davis_iou}, eval time {t1-t0}")
