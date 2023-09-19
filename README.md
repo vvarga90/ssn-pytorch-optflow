@@ -79,7 +79,7 @@ python inference_base_model.py --image davis_pigs_00043.jpg
 A trained composite model can be used for inference (superpixel segmentation) based on RGB and optical flow estimations. The optical flow estimations are read from a HDF-5 file in the script. See `train_optflow_composite_model.py` for details on the format.
 
 ```
-python inference_optflow_composite_model.py --image davis_pigs_00043.jpg --comp_model_weights ./log/composite_model_run1801.pth --optflow_data /path/to/optflow_data/optflow_gma_pigs.h5 --optflow_data_fr_idx 43
+python inference_optflow_composite_model.py --image davis_pigs_00043.jpg --comp_model_weights ./log/composite_model_run1801.pth --optflow_data /path/to/DAVIS_OPTICAL_FLOW_HDF5_FOLDER/optflow_gma_pigs.h5 --optflow_data_fr_idx 43
 ```
 
 Our trained models were used from the `./trained_models/` folder for the demo images.
