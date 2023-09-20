@@ -44,7 +44,7 @@ Once a base model has been trained, a composite model can be trained that relies
 python train_optflow_composite_model.py --bsds_root /path/to/BSDS500/BSR --davis2017_root /path/to/DAVIS2017 --davis_optflow_folder /path/to/DAVIS_OPTICAL_FLOW_HDF5_FOLDER
 ```
 
-Optical flow estimates must be generated first by some dense optical flow estimation software (e.g., GMA, https://github.com/zacjiang/GMA). The estimates must be put into separate HDF-5 archives for each video. See `train_optflow_composite_model.py` for details on the format.
+Optical flow estimates must be generated first by some dense optical flow estimation software (e.g., GMA, https://github.com/zacjiang/GMA). The estimates must be put into separate HDF-5 archives for each video. See `train_optflow_composite_model.py` for details on the format. Currently, the training and evaluation scripts for the composite models load optical flow data for the whole DAVIS dataset into memory, which may take up to 40 GB of (main) memory - more memory efficient implementations could possibly exist.
 
 ## Evaluation
 
