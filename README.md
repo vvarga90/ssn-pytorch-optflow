@@ -22,7 +22,7 @@ original code: https://github.com/NVlabs/ssn_superpixels
 
 _**Note:** a trained base model is provided at `./trained_models/best_model.pth`. The model was trained on the BSDS-500 training/validation set._
 
-First, a base model has to be trained has to be trained on RGB data (BSDS500 by default). The resulting (base) model is an approximate equivalent of the original SSN model.
+First, a base model has to be trained on RGB data (BSDS500 by default). The resulting (base) model is an approximate equivalent of the original SSN model.
 
 ```
 python train_base_model.py --bsds_root /path/to/BSDS500/BSR
@@ -92,7 +92,7 @@ Base model results (nspix=200, color_scale=0.26, pos_scale=10.0), path to model:
 
 <img src=https://github.com/vvarga90/ssn-pytorch-optflow/blob/main/results_pigs_base.png width="600">
 
-Composite model results using pre-generated GMA optical flow estimations (nspix=200, color_scale=0.26, pos_scale=10.0, optflow_scale=15.0), path to model: `./trained_models/best_model.pth`
+Composite model results using pre-generated GMA optical flow estimations (nspix=200, color_scale=0.26, pos_scale=10.0, optflow_scale=15.0), path to model: `./trained_models/best_composite_model.pth`
 
 <img src=https://github.com/vvarga90/ssn-pytorch-optflow/blob/main/results_pigs_composite.png  width="600">
 
